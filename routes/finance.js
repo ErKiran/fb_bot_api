@@ -13,7 +13,6 @@ router.get('/forex', async (req, res) => {
     let months = todays.getMonth();
     day = day.toString().length === 2 ? day : `0${day}`;
     months = months.toString().length === 2 ? months : `0${months}`;
-    console.log(day)
     const year = todays.getFullYear();
     const today = await axios.get(`https://www.nrb.org.np/exportForexJSON.php?YY=${year}&MM=${months}&DD=${day}&YY1=${year}&MM1=${months}&DD1=${day}`);
     res.json(today.data)

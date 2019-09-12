@@ -1,6 +1,11 @@
 const express = require('express');
+const bodyparser = require('body-parser');
+
 const app = express();
 require('dotenv').config();
+require('./bots/hello');
+require('./bots/bot');
+
 
 const news = require('./routes/news');
 const horscope = require('./routes/horscope');
@@ -9,8 +14,14 @@ const jokes = require('./routes/jokes');
 const movies = require('./routes/movies');
 const webhook = require('./routes/webhook');
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json())
+
+
+/*app.use(express.urlencoded({ extended: true }));
+app.use(express.json())*/
+
+app.use(bodyparser.json({}))
+app.use(bodyparser.urlencoded({ extended: true }));
+
 
 app.use('/news', news);
 app.use('/horscope', horscope);
@@ -27,4 +38,6 @@ app.listen(4000, () => {
     console.log('Server is up and running in the port 4000')
 })
 
-module.exports = app
+module.exports = {
+    app
+}
