@@ -1,21 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const {sendTextMessage} = require('../bots/hello')
 
 router.post('/', (req, res) => {
     let body = req.body;
     let messaging_events = body.entry[0].messaging;
     console.log(body)
-    if(messaging_events){
-    for (let i = 0; i < messaging_events.length; i++) {
-        let event = req.body.entry[0].messaging[i];
-        let sender = event.sender.id;
-        if (event.message && event.message.text) {
-            let text = event.message.text;
-            sendTextMessage(sender, text + "!");
+    if (messaging_events) {
+        for (let i = 0; i < messaging_events.length; i++) {
+            let event = req.body.entry[0].messaging[i];
+            let sender = event.sender.id;
+            if (event.message && event.message.text) {
+                let text = event.message.text;
+                sendTextMessage(sender, text + "!");
+            }
         }
-    }
-    res.sendStatus(200);
+        res.sendStatus(200);
     }
 
     // Checks this is an event from a page subscription
