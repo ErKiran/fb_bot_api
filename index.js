@@ -3,8 +3,6 @@ const bodyparser = require('body-parser');
 
 const app = express();
 require('dotenv').config();
-require('./scraper/earthquake');
-
 
 
 const news = require('./routes/news');

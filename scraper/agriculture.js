@@ -1,37 +1,74 @@
 const puppeteer = require('puppeteer');
 const url = 'http://kalimatimarket.gov.np/daily-price-information';
 
-(async function main() {
-    const browser = await puppeteer.launch({ headless: true, slowMo: 250 });
-    const page = await browser.newPage();
-
-    await page.goto(url);
-    await page.click('input[name=view]');
-    const teams = await page.evaluate(() => {
-        const grabFromRow = (row, classname) => row
-            .querySelector(`tr.${classname}`)
-            .innerText
-            .trim()
-
-        const TEAM_ROW_SELECTOR = 'tr.team';
-
-        const data = [];
-        const teamRows = document.querySelectorAll(TEAM_ROW_SELECTOR);
-
-        for (const tr of teamRows) {
-            data.push({
-                name: grabFromRow(tr, 'name'),
-                year: grabFromRow(tr, 'year'),
-                wins: grabFromRow(tr, 'wins'),
-                losses: grabFromRow(tr, 'losses')
+module.exports = {
+    wholesale: async function wholesale() {
+        const browser = await puppeteer.launch({ headless: true, waitUntil: 'load' });
+        const page = await browser.newPage();
+        await page.goto(url);
+        await page.click('input[name=view]');
+        await page.waitForSelector('tr.row1')
+        const neee = await page.evaluate(() => {
+            let date = Array.from(document.querySelectorAll('td')).map(i => i.innerText)[16]
+            let first = Array.from(document.getElementsByClassName('row1')).map(i => i.innerText.trim());
+            let second = Array.from(document.getElementsByClassName('row0')).map(i => i.innerText.trim());
+            const lists = [...first, ...second];
+            let splitted = [];
+            lists.map(i => {
+                splitted.push(i.split("\t"))
             })
-        }
-        return data
+            let final = [];
+            splitted.map(i => {
+                final.push({
+                    name: i[0],
+                    unit: i[1],
+                    minimum: i[2],
+                    maximum: i[3],
+                    average: i[3]
+                })
+            })
+            return {
+                date,
+                final
+            };
+        });
+        await browser.close();
+        return neee;
+    },
+    retail: async function retail() {
+        const browser = await puppeteer.launch({ headless: true, waitUntil: 'load' });
+        const page = await browser.newPage();
+        await page.goto(url);
+        await page.select('#pricetype', 'R')
+        await page.click('input[name=view]');
 
+        await page.waitForSelector('tr.row1')
+        const neee = await page.evaluate(() => {
+            let date = Array.from(document.querySelectorAll('td')).map(i => i.innerText)[16]
+            let first = Array.from(document.getElementsByClassName('row1')).map(i => i.innerText.trim());
+            let second = Array.from(document.getElementsByClassName('row0')).map(i => i.innerText.trim());
+            const lists = [...first, ...second];
+            let splitted = [];
+            lists.map(i => {
+                splitted.push(i.split("\t"))
+            })
+            let final = [];
+            splitted.map(i => {
+                final.push({
+                    name: i[0],
+                    unit: i[1],
+                    minimum: i[2],
+                    maximum: i[3],
+                    average: i[3]
+                })
+            })
+            return {
+                date,
+                final
+            };
+        });
+        await browser.close();
+        return neee;
+    }
+}
 
-    })
-    console.log(JSON.stringify(teams, null, 2))
-    await browser.close();
-})()
-
-//main();

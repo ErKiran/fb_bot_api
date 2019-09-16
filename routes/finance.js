@@ -1,10 +1,17 @@
 const express = require('express');
 const axios = require('axios');
+const { wholesale, retail } = require('../scraper/agriculture');
 
 const router = express.Router();
 
 router.get('/gold', async (req, res) => {
     const list = await axios.get('')
+})
+
+router.get('/agriculture', async (req, res) => {
+    const pricelist = await retail();
+    console.log('I was called', pricelist)
+    res.send(pricelist)
 })
 
 router.get('/forex', async (req, res) => {
