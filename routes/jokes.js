@@ -26,6 +26,15 @@ router.get('/all_cartoon', async (req, res) => {
             images: `http://bg.annapurnapost.com${i}`
         })
     })
-    res.json(cartoons)
+    let viewed_cartoons = [];
+    const random_cartoons = Math.floor(Math.random() * (cartoons.length - 0));
+
+    if (viewed_cartoons.indexOf(random_cartoons) == -1) {
+        viewed_cartoons.push(random_cartoons);
+        res.json(cartoons[random_cartoons])
+        console.log(viewed_cartoons)
+    } else {
+        console.log('All caught up')
+    }
 })
 module.exports = router
