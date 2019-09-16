@@ -1,17 +1,22 @@
 const express = require('express');
 const axios = require('axios');
-const { wholesale, retail } = require('../scraper/agriculture');
+const { pricelist } = require('../scraper/agriculture');
 
 const router = express.Router();
 
 router.get('/gold', async (req, res) => {
-    const list = await axios.get('')
+    const list = await axios.get('http://bg.annapurnapost.com/api/commodity');
+    res.json(list.data)
 })
 
-router.get('/agriculture', async (req, res) => {
-    const pricelist = await retail();
-    console.log('I was called', pricelist)
-    res.send(pricelist)
+router.get('/agriculture/retail', async (req, res) => {
+    const price = await pricelist('Retail');
+    res.json(price)
+})
+
+router.get('/agriculture/wholesale', async (req, res) => {
+    const price = await pricelist('Wholesale');
+    res.json(price)
 })
 
 router.get('/forex', async (req, res) => {
