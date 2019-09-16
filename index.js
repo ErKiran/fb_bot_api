@@ -3,7 +3,7 @@ const bodyparser = require('body-parser');
 
 const app = express();
 require('dotenv').config();
-require('./scraper')
+require('./scraper/earthquake');
 
 
 
