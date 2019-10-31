@@ -1,25 +1,29 @@
 const fs = require('fs');
 const path = require('path');
-const axios = require('axios')
-const saveImageFromUrlToDisk = async (url,localPath)=>{
-    try{
-    if (!fs.existsSync(localPath)){
-        fs.mkdirSync(localPath,{recursive: true});
+const https = require('https')
+const saveImageFromUrlToDisk = (url, localPath, fname, lname) => {
+  try {
+    if (!fs.existsSync(localPath)) {
+      fs.mkdirSync(localPath, { recursive: true });
     }
-    const file = fs.createWriteStream(localPath);
-    const fileupload = await axios.get(url);
+    const file = fs.createWriteStream(`${localPath}/${fname}_${lname}.png`);
+    https.get(url, function (response) {
+      response.pipe(file);
+    });
 
-    return fileupload.data.pipe(file)
-}
-catch(e){
+    if (fs.existsSync(`${localPath}/${fname}_${lname}.png`)) {
+      const imageURL = `${localPath}/${fname}_${lname}.png`
+      return imageURL;
+    }
+  }
+  catch (e) {
     throw new Error(e)
+  }
 }
-  }
 
-  exports.fetchSavedImageFromDisk = (pageId,imageURL) =>{
-    const uploadDir = `./public/uploads${pageId}/profileImage`;
-    const dir = path.join(__dirname,'../',uploadDir)
-    const receivedData = saveImageFromUrlToDisk(imageURL,dir);
-    console.log(receivedData)
-    return receivedData;
-  }
+exports.fetchSavedImageFromDisk = (pageId, imageURL, firstname, lastname) => {
+  const uploadDir = `./public/uploads${pageId}/profileImage`;
+  const dir = path.join(__dirname, '../', uploadDir)
+  const receivedData = saveImageFromUrlToDisk(imageURL, dir, firstname, lastname);
+  return receivedData;
+}

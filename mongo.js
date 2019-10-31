@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+/*const mongoose = require('mongoose')
 
 try{
 mongoose.connect(process.env.MongoURI,{ useNewUrlParser: true })
@@ -8,4 +8,4 @@ mongoose.connect(process.env.MongoURI,{ useNewUrlParser: true })
 )
 }catch(e){
     throw new Error(`Can't connect to the Local Mongo Instance ${e}`)
-}
+}*/

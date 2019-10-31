@@ -1,4 +1,4 @@
-const redis = require('redis');
+/*const redis = require('redis');
 
 let client;
 try{
@@ -10,7 +10,8 @@ try{
     client.on('connect',()=>{
         console.log('Redis Server is sucessfully connected')
     })
-    
+
 module.exports ={
     client
-}    
+}
+*/

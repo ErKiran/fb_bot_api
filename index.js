@@ -2,7 +2,7 @@ const express = require('express');
 
 const app = express();
 require('dotenv').config();
-require('./mongo')
+//require('./mongo')
 //require('./redis')
 
 
@@ -24,7 +24,7 @@ app.use('/finance', finance);
 app.use('/jokes', jokes);
 app.use('/movies', movies);
 app.use('/webhook', webhook)
-app.use('/image',require('./routes/saveImageDisk'))
+app.use('/image', require('./routes/saveImageDisk'))
 
 app.use('/', (req, res) => {
     res.json({ msg: 'Hello World' })
