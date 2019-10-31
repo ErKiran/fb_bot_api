@@ -1,9 +1,9 @@
 const express = require('express');
-const bodyparser = require('body-parser');
 
 const app = express();
 require('dotenv').config();
-require('./scraper/earthquake');
+require('./mongo')
+//require('./redis')
 
 
 const news = require('./routes/news');
@@ -14,16 +14,17 @@ const movies = require('./routes/movies');
 const webhook = require('./routes/webhook');
 
 
-app.use(bodyparser.json({}))
-app.use(bodyparser.urlencoded({ extended: true }));
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 
 app.use('/news', news);
-app.use('/horscope', horscope);
+app.use('/horoscopes', horscope);
 app.use('/finance', finance);
 app.use('/jokes', jokes);
 app.use('/movies', movies);
 app.use('/webhook', webhook)
+app.use('/image',require('./routes/saveImageDisk'))
 
 app.use('/', (req, res) => {
     res.json({ msg: 'Hello World' })

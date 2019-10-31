@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const { pricelist } = require('../scraper/agriculture');
+const {client } = require('../redis');
 
 const router = express.Router();
 
@@ -11,6 +12,13 @@ router.get('/gold', async (req, res) => {
 
 router.get('/agriculture/retail', async (req, res) => {
     const price = await pricelist('Retail');
+    /*client.set('Date',price.date)
+    const date = client.get('Date');
+    console.log(date)*/
+    console.log('Client Object',client)
+    client.set('Name','Kiran');
+    const name = client.get('Names');
+    console.log(name)
     res.json(price)
 })
 
