@@ -1,18 +1,19 @@
 const fs = require('fs');
 const path = require('path');
-const axios = require('axios')
+const https = require('https')
 const saveImageFromUrlToDisk = async (url,localPath)=>{
     try{
     if (!fs.existsSync(localPath)){
-        fs.mkdirSync(localPath,{recursive: true});
+        fs.mkdirSync(localPath,{recursive:true});
     }
-    const file = fs.createWriteStream(localPath);
-    const fileupload = await axios.get(url);
-
-    return fileupload.data.pipe(file)
+    const file = fs.createWriteStream(`${localPath}/profile.png`);
+    const request = https.get(url, function(response) {
+    response.pipe(file);
+    });
+    return request
 }
 catch(e){
-    throw new Error(e)
+    return e
 }
   }
 
