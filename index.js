@@ -1,9 +1,10 @@
 const express = require('express');
+const helmet = require('helmet')
+
 
 const app = express();
 require('dotenv').config();
 require('./mongo')
-//require('./redis')
 
 
 const news = require('./routes/news');
@@ -16,6 +17,7 @@ const webhook = require('./routes/webhook');
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(helmet())
 
 
 app.use('/news', news);

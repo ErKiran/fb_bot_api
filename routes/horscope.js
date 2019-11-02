@@ -1,10 +1,11 @@
 const express = require('express');
-const {getHoroscope} = require('../controllers/horoscopeControllers');
+const { getHoroscope } = require('../controllers/horoscopeControllers');
 const router = express.Router();
 
-router.get('/', async (req, res) => {
 
-    res.json(await getHoroscope())
+router.get('/', async (req, res) => {
+    const data = await getHoroscope();
+    res.json(data)
 })
 
 module.exports = router
