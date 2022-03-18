@@ -19,7 +19,7 @@
   "homepage": "https://github.com/ErKiran/fb_bot#readme",
   "dependencies": {
     "amqplib": "^0.5.5",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
     "mongoose": "^5.7.5",
